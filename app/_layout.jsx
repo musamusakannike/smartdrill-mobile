@@ -2,10 +2,11 @@ import { Slot } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import {StyleSheet} from "react-native"
 
 const AppLayout = () => {
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <Slot />
     </SafeAreaView>
@@ -13,3 +14,10 @@ const AppLayout = () => {
 };
 
 export default AppLayout;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: StatusBar.currentHeight,
+    },
+});
