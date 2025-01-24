@@ -261,10 +261,6 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 16,
-    shadowColor: "#ccc",
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 3,
   },
   greeting: {
     fontSize: 24,
@@ -329,7 +325,12 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     padding: 16
-  }
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default Home;
