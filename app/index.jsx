@@ -11,7 +11,7 @@ const Home = () => {
     const checkLogin = async () => {
       try {
         // Check if the token exists in AsyncStorage
-        const token = await AsyncStorage.getItem("authToken");
+        const token = await AsyncStorage.getItem("token");
         if (!token) {
           // If no token, redirect to login page
           router.replace("/login");
