@@ -60,7 +60,6 @@ const Home = () => {
 
         const userData = await response.json();
         setUser(userData.data);
-        console.log("User data:", userData);
         if (userData?.data?.user?.role === "admin") {
           setShowAdminModal(true);
         }
