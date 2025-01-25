@@ -4,7 +4,6 @@ import {
   View,
   ActivityIndicator,
   TouchableOpacity,
-  FlatList,
   ScrollView,
   Modal,
   useColorScheme,
@@ -61,6 +60,7 @@ const Home = () => {
 
         const userData = await response.json();
         setUser(userData.data);
+        console.log("User data:", userData);
         if (userData?.data?.user?.role === "admin") {
           setShowAdminModal(true);
         }
@@ -69,7 +69,6 @@ const Home = () => {
         router.replace("/login"); // Redirect to login page on fetch error
       }
     };
-
     checkLogin();
     fetchUser();
   }, [router]);
@@ -186,7 +185,7 @@ const Home = () => {
             { color: isDarkMode ? "#bee3f8" : "#1e3a8a" },
           ]}
         >
-          {`Hello, ${user?.data?.user?.fullname || "Student"}!`}
+          {`Hello, ${user?.user?.fullname || "Student"}!`}
         </Text>
       </View>
 
