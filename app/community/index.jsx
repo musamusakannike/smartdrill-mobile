@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   ActivityIndicator,
+  useColorScheme,
 } from "react-native";
 import { Link } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,6 +17,7 @@ const CommunityPage = () => {
   const [otherCommunities, setOtherCommunities] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const colorScheme = useColorScheme(); // Detect system theme (light or dark)
 
   // Fetch communities
   const fetchCommunities = async () => {
@@ -24,7 +26,6 @@ const CommunityPage = () => {
     try {
       const token = await AsyncStorage.getItem("token");
       if (!token) {
-        // If no token, redirect to login page
         console.log("No token found!");
         router.replace("/login");
       } else {
@@ -64,11 +65,11 @@ const CommunityPage = () => {
           },
         }
       );
-      alert("You have successfully joined the community!"); // Replace with a toast if needed
-      fetchCommunities(); // Refresh the list
+      alert("You have successfully joined the community!");
+      fetchCommunities();
     } catch (error) {
       console.error("Failed to join community:", error.message);
-      alert("Failed to join the community. Please try again."); // Replace with a toast if needed
+      alert("Failed to join the community. Please try again.");
     }
   };
 
@@ -78,45 +79,101 @@ const CommunityPage = () => {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Loading...</Text>
+      <View
+        style={[
+          styles.loadingContainer,
+          colorScheme === "dark" && styles.loadingContainerDark,
+        ]}
+      >
+        <Text
+          style={[
+            styles.loadingText,
+            colorScheme === "dark" && styles.loadingTextDark,
+          ]}
+        >
+          Loading...
+        </Text>
       </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[
+        styles.container,
+        colorScheme === "dark" && styles.containerDark,
+      ]}
+    >
       <View style={styles.header}>
-        <Text style={styles.headerText}>Communities</Text>
+        <Text
+          style={[
+            styles.headerText,
+            colorScheme === "dark" && styles.headerTextDark,
+          ]}
+        >
+          Communities
+        </Text>
       </View>
 
       {/* Joined Communities */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Your Communities</Text>
+        <Text
+          style={[
+            styles.sectionTitle,
+            colorScheme === "dark" && styles.sectionTitleDark,
+          ]}
+        >
+          Your Communities
+        </Text>
         {joinedCommunities.length > 0 ? (
           <View style={styles.communityList}>
             {joinedCommunities.map((community) => (
               <Link
                 href={`/community/${community._id}`}
                 key={community._id}
-                style={styles.communityCard}
+                style={[
+                  styles.communityCard,
+                  colorScheme === "dark" && styles.communityCardDark,
+                ]}
               >
                 <View>
-                  <Text style={styles.communityName}>{community.name}</Text>
+                  <Text
+                    style={[
+                      styles.communityName,
+                      colorScheme === "dark" && styles.communityNameDark,
+                    ]}
+                  >
+                    {community.name}
+                  </Text>
                 </View>
                 <View>
-                  <Text style={styles.communityDescription}>
+                  <Text
+                    style={[
+                      styles.communityDescription,
+                      colorScheme === "dark" && styles.communityDescriptionDark,
+                    ]}
+                  >
                     {community.description}
                   </Text>
                 </View>
-                <Text style={styles.communityMembers}>
+                <Text
+                  style={[
+                    styles.communityMembers,
+                    colorScheme === "dark" && styles.communityMembersDark,
+                  ]}
+                >
                   Members: {community.members.length}
                 </Text>
               </Link>
             ))}
           </View>
         ) : (
-          <Text style={styles.noCommunitiesText}>
+          <Text
+            style={[
+              styles.noCommunitiesText,
+              colorScheme === "dark" && styles.noCommunitiesTextDark,
+            ]}
+          >
             You have not joined any communities yet.
           </Text>
         )}
@@ -124,29 +181,74 @@ const CommunityPage = () => {
 
       {/* Other Communities */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Other Communities</Text>
+        <Text
+          style={[
+            styles.sectionTitle,
+            colorScheme === "dark" && styles.sectionTitleDark,
+          ]}
+        >
+          Other Communities
+        </Text>
         {otherCommunities.length > 0 ? (
           <View style={styles.communityList}>
             {otherCommunities.map((community) => (
-              <View key={community._id} style={styles.communityCard}>
-                <Text style={styles.communityName}>{community.name}</Text>
-                <Text style={styles.communityDescription}>
+              <View
+                key={community._id}
+                style={[
+                  styles.communityCard,
+                  colorScheme === "dark" && styles.communityCardDark,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.communityName,
+                    colorScheme === "dark" && styles.communityNameDark,
+                  ]}
+                >
+                  {community.name}
+                </Text>
+                <Text
+                  style={[
+                    styles.communityDescription,
+                    colorScheme === "dark" && styles.communityDescriptionDark,
+                  ]}
+                >
                   {community.description}
                 </Text>
-                <Text style={styles.communityMembers}>
+                <Text
+                  style={[
+                    styles.communityMembers,
+                    colorScheme === "dark" && styles.communityMembersDark,
+                  ]}
+                >
                   Members: {community.members.length}
                 </Text>
                 <TouchableOpacity
-                  style={styles.joinButton}
+                  style={[
+                    styles.joinButton,
+                    colorScheme === "dark" && styles.joinButtonDark,
+                  ]}
                   onPress={() => handleJoinCommunity(community._id)}
                 >
-                  <Text style={styles.joinButtonText}>Join</Text>
+                  <Text
+                    style={[
+                      styles.joinButtonText,
+                      colorScheme === "dark" && styles.joinButtonTextDark,
+                    ]}
+                  >
+                    Join
+                  </Text>
                 </TouchableOpacity>
               </View>
             ))}
           </View>
         ) : (
-          <Text style={styles.noCommunitiesText}>
+          <Text
+            style={[
+              styles.noCommunitiesText,
+              colorScheme === "dark" && styles.noCommunitiesTextDark,
+            ]}
+          >
             No other communities available to join.
           </Text>
         )}
@@ -161,15 +263,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f4f8",
     padding: 16,
   },
+  containerDark: {
+    backgroundColor: "#111827",
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f0f4f8",
   },
+  loadingContainerDark: {
+    backgroundColor: "#111827",
+  },
   loadingText: {
     fontSize: 18,
     color: "#1e3a8a",
+  },
+  loadingTextDark: {
+    color: "#90caf9",
   },
   header: {
     marginBottom: 24,
@@ -179,6 +290,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#1e3a8a",
   },
+  headerTextDark: {
+    color: "#90caf9",
+  },
   section: {
     marginBottom: 24,
   },
@@ -187,6 +301,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#1e3a8a",
     marginBottom: 16,
+  },
+  sectionTitleDark: {
+    color: "#90caf9",
   },
   communityList: {
     gap: 16,
@@ -201,25 +318,41 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
+  communityCardDark: {
+    backgroundColor: "#1f2937",
+    shadowColor: "#000",
+  },
   communityName: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#1e3a8a",
     marginBottom: 8,
   },
+  communityNameDark: {
+    color: "#90caf9",
+  },
   communityDescription: {
     fontSize: 14,
     color: "#666",
     marginBottom: 8,
   },
+  communityDescriptionDark: {
+    color: "#ccc",
+  },
   communityMembers: {
     fontSize: 12,
     color: "#999",
+  },
+  communityMembersDark: {
+    color: "#bbb",
   },
   noCommunitiesText: {
     fontSize: 16,
     color: "#666",
     textAlign: "center",
+  },
+  noCommunitiesTextDark: {
+    color: "#ccc",
   },
   joinButton: {
     marginTop: 12,
@@ -228,10 +361,16 @@ const styles = StyleSheet.create({
     padding: 12,
     alignItems: "center",
   },
+  joinButtonDark: {
+    backgroundColor: "#0056b3",
+  },
   joinButtonText: {
     fontSize: 16,
     color: "#fff",
     fontWeight: "600",
+  },
+  joinButtonTextDark: {
+    color: "#fff",
   },
 });
 
